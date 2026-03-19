@@ -1,20 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import "./App.css";
 
-const card = ({title}) => {
-
-}
-
+const Card = ({ title }) => {
+  return (
+    <div>
+      <h2>{title}</h2>
+    </div>
+  );
+};
 
 const App = () => {
-  return(
-    <h2>Functional Arrow Component</h2>
-  )
-}
+  return (
+    <div className="card-container">
+      <Card title={"Mark zukerburg"} />
+      <Card title={"Jesse pinkman"} />
+      <Card title={"Walter White"} />
+    </div>
+  );
+};
 
-
-export default App
-
+export default App;
