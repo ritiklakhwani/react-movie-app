@@ -1,31 +1,19 @@
-import "./App.css";
-import { useState, useEffect } from "react";
-
-const Card = ({ title }) => {
-  const [count, setCount] = useState(0)
-  const [hasLiked, setHasLiked] = useState(false);
-
-  useEffect(() => {
-    console.log(`${title} has been liked: ${hasLiked}`)
-  })
-
-  return (
-    <div className="card" onClick={() => setCount(count + 1)}>
-      <h2>{title}<br/> {count}</h2>
-
-      <button onClick={() => setHasLiked(!hasLiked)}>{hasLiked ? "Liked" : "like"}</button>
-    </div>
-  );
-};
+import React, { Component } from 'react';
 
 const App = () => {
   return (
-    <div className="card-container">
-      <Card title={"Mark zukerburg"} />
-      <Card title={"Jesse pinkman"} />
-      <Card title={"Walter White"} />
-    </div>
-  );
-};
+    <main>
+      <div className="pattern" />
+      
+      <div className="wrapper">
+        <header>
+          <h1>
+            Find <span className='text-gradient'>Movies</span> You'll Enjoy Without The Hassle
+          </h1>
+        </header>
+      </div>
+    </main>
+  )
+}
 
-export default App;
+export default App ;
