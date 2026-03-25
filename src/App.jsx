@@ -21,17 +21,18 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [movieList, setMovieList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [debounceSearchTerm, setDebounceSearchTerm] = useState('')
+  const [debounceSearchTerm, setDebounceSearchTerm] = useState("");
+  const [trendingMovies, setTrendingMovies] = useState([]);
 
-  useDebounce(() => setDebounceSearchTerm(searchTerm), 500, [searchTerm])
+  useDebounce(() => setDebounceSearchTerm(searchTerm), 500, [searchTerm]);
 
-  const fetchMovies = async (query = '') => {
+  const fetchMovies = async (query = "") => {
     setIsLoading(true);
     setErrorMessage("");
     try {
-      const endpoint = query 
-      ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}` 
-      : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+      const endpoint = query
+        ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
+        : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
 
       const response = await fetch(endpoint, API_OPTIONS);
 
@@ -56,6 +57,23 @@ const App = () => {
     }
   };
 
+  const fetchTrendingMovies = async () => {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/trending/movie/day`,
+        API_OPTIONS,
+      );
+      const data = await response.json();
+      setTrendingMovies(data.results || []);
+    } catch (error) {
+      console.log("Error fetching trending movies:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTrendingMovies();
+  }, []);
+
   useEffect(() => {
     fetchMovies(debounceSearchTerm);
   }, [debounceSearchTerm]);
@@ -73,6 +91,24 @@ const App = () => {
           </h1>
           <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         </header>
+        <section className="trending">
+          <h2>Trending Movies</h2>
+          <ul>
+            {trendingMovies.map((movie, index) => (
+              <li key={movie.id}>
+                <p>{index + 1}</p>
+                <img
+                  src={
+                    movie.poster_path
+                      ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                      : "/no-movie.png"
+                  }
+                  alt={movie.title}
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
         <section className="all-movies">
           <h2 className="mt-[40px]">All Movies</h2>
 
