@@ -120,7 +120,7 @@ const App = () => {
             </div>
             <p>
               {searchTerm
-                ? "Refined results from TMDB matched to your search."
+                ? "Refined results matched to your search."
                 : "Find your next watch from the most popular titles."}
             </p>
           </div>
