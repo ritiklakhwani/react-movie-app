@@ -1,18 +1,25 @@
-import React, { Component } from "react";
-
 function MovieCard({
-  movie: { title, vote_average, poster_path, release_date, original_language },
+  movie: {
+    title,
+    vote_average,
+    poster_path,
+    release_date,
+    original_language,
+    overview,
+  },
 }) {
   return (
-    <div className="movie-card">
-      <img
-        src={
-          poster_path
-            ? `https://image.tmdb.org/t/p/w500/${poster_path}`
-            : "/no-movie.png"
-        }
-        alt={title}
-      />
+    <div className="movie-card group">
+      <div className="poster-wrapper">
+        <img
+          src={
+            poster_path
+              ? `https://image.tmdb.org/t/p/w500/${poster_path}`
+              : "/no-movie.png"
+          }
+          alt={title}
+        />
+      </div>
       <div className="mt-4">
         <h3>{title}</h3>
         <div className="content">
@@ -28,6 +35,11 @@ function MovieCard({
             {release_date ? release_date.split("-")[0] : "N/A"}
           </p>
         </div>
+        <p className="overview">
+          {overview
+            ? overview
+            : "No summary available for this movie right now."}
+        </p>
       </div>
     </div>
   );

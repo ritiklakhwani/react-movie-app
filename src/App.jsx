@@ -1,4 +1,3 @@
-import React, { Component } from "react";
 import { useEffect, useState } from "react";
 import Search from "./components/search";
 import Spinner from "./components/spinner";
@@ -89,8 +88,9 @@ const App = () => {
             Find <span className="text-gradient">Movies</span> You'll Enjoy
             Without The Hassle
           </h1>
-           <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+          <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         </header>
+
         <section className="trending">
           <h2>Trending Movies</h2>
           <ul>
@@ -109,13 +109,33 @@ const App = () => {
             ))}
           </ul>
         </section>
+
         <section className="all-movies">
-          <h2 className="mt-[40px]">All Movies</h2>
+          <div className="section-heading">
+            <div>
+              <span className="section-label">
+                {searchTerm ? "Search results" : "Featured collection"}
+              </span>
+              <h2>{searchTerm ? `Results for "${searchTerm}"` : "All Movies"}</h2>
+            </div>
+            <p>
+              {searchTerm
+                ? "Refined results from TMDB matched to your search."
+                : "Find your next watch from the most popular titles."}
+            </p>
+          </div>
 
           {isLoading ? (
             <Spinner />
           ) : errorMessage ? (
-            <p className="text-red-500">{errorMessage}</p>
+            <div className="state-card error-state">
+              <p>{errorMessage}</p>
+            </div>
+          ) : movieList.length === 0 ? (
+            <div className="state-card empty-state">
+              <h3>No movies found</h3>
+              <p>Try a different title, genre keyword, or a shorter search.</p>
+            </div>
           ) : (
             <ul>
               {movieList.map((movie) => (

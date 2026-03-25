@@ -1,8 +1,6 @@
-import React, { Component } from "react";
-
 const Search = ({ searchTerm, setSearchTerm }) => {
   return (
-    <div className="search ">
+    <div className="search">
       <div>
         <img src="./search.svg" alt="search" />
 
@@ -12,6 +10,17 @@ const Search = ({ searchTerm, setSearchTerm }) => {
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
         />
+
+        {searchTerm ? (
+          <button
+            type="button"
+            className="clear-search"
+            aria-label="Clear search"
+            onClick={() => setSearchTerm("")}
+          >
+            x
+          </button>
+        ) : null}
       </div>
     </div>
   );

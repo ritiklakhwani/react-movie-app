@@ -21,10 +21,15 @@
 }
 
 @layer base {
+  * {
+    box-sizing: border-box;
+  }
+
   body {
     font-family: "DM Sans", serif;
     font-optical-sizing: auto;
     background: #030014;
+    color: white;
   }
 
   h1 {
@@ -36,7 +41,7 @@
   }
 
   main {
-    @apply min-h-screen relative bg-primary;
+    @apply relative min-h-screen overflow-x-hidden bg-primary;
   }
 
   header {
@@ -57,31 +62,47 @@
     @apply px-5 py-12 xs:p-10 max-w-7xl mx-auto flex flex-col relative z-10;
   }
 
+  .section-heading {
+    @apply flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between;
+  }
+
+  .section-heading p {
+    @apply max-w-md text-sm leading-6 text-light-200;
+  }
+
+  .section-label {
+    @apply mb-2 inline-block text-xs font-semibold uppercase tracking-[0.28em] text-light-200/70;
+  }
+
   .trending {
      @apply mt-20;
+  }
 
-    & ul {
-      @apply flex flex-row overflow-y-auto gap-5 -mt-10 w-full hide-scrollbar;
-    }
+  .trending ul {
+    @apply flex flex-row overflow-y-auto gap-5 -mt-10 w-full hide-scrollbar;
+  }
 
-    & ul li {
-      @apply min-w-[230px] flex flex-row items-center;
-    }
+  .trending ul li {
+    @apply min-w-[230px] flex flex-row items-center;
+  }
 
-    & ul li p {
-      @apply fancy-text mt-[22px] text-nowrap;
-    }
+  .trending ul li p {
+    @apply fancy-text mt-[22px] text-nowrap;
+  }
 
-    & ul li img {
-      @apply w-[127px] h-[163px] rounded-lg object-cover -ml-3.5;
-    }
+  .trending ul li img {
+    @apply w-[127px] h-[163px] rounded-lg object-cover -ml-3.5;
   }
 
   .search {
     @apply w-full bg-light-100/5 px-4 py-3 rounded-lg mt-10 max-w-3xl mx-auto;
 
     & div {
-      @apply relative flex items-center;
+      @apply relative flex items-center rounded-lg border border-transparent transition-all duration-300;
+    }
+
+    & div:focus-within {
+      @apply border-indigo-500/50 ring-2 ring-indigo-500/30;
     }
 
     & img {
@@ -89,56 +110,90 @@
     }
 
     & input {
-      @apply w-full bg-transparent py-2 sm:pr-10 pl-10 text-base text-gray-200 placeholder-light-200 outline-hidden;
+      @apply w-full bg-transparent py-2 pl-10 pr-10 text-base text-gray-200 placeholder-light-200 outline-hidden sm:pr-12;
+    }
+
+    & .clear-search {
+      @apply absolute right-2 flex h-7 w-7 items-center justify-center rounded-full text-sm font-medium text-light-200/65 transition duration-200 hover:bg-white/8 hover:text-white;
     }
   }
 
   .all-movies {
-    @apply space-y-9 flex flex-col ;
+    @apply flex flex-col gap-8;
+  }
 
-    & ul {
-      @apply grid grid-cols-1 gap-5 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4;
-    }
+  .all-movies ul {
+    @apply grid grid-cols-1 gap-6 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4;
   }
 
   .movie-card {
-    @apply bg-dark-100 p-5 rounded-2xl shadow-inner shadow-light-100/10;
+    @apply rounded-[24px] border border-white/8 bg-linear-to-b from-white/9 to-white/4 p-4 shadow-[0_20px_60px_rgba(0,0,0,0.35)] transition duration-300 hover:-translate-y-1.5 hover:border-light-100/20 hover:shadow-[0_28px_80px_rgba(15,13,35,0.65)];
+  }
 
-    & img {
-      @apply rounded-lg h-auto w-full;
-    }
+  .poster-wrapper {
+    @apply overflow-hidden rounded-[18px] border border-white/6 bg-dark-100;
+  }
 
-    & h3 {
-      @apply text-white font-bold text-base line-clamp-1;
-    }
+  .movie-card img {
+    @apply aspect-[2/3] h-auto w-full object-cover transition duration-500 group-hover:scale-[1.03];
+  }
 
-    & .content {
-      @apply mt-2 flex flex-row items-center flex-wrap gap-2;
-    }
+  .movie-card h3 {
+    @apply line-clamp-1 text-lg font-bold tracking-[-0.02em] text-white;
+  }
 
-    & .rating {
-      @apply flex flex-row items-center gap-1;
-    }
+  .movie-card .content {
+    @apply mt-3 flex flex-row items-center flex-wrap gap-2.5 text-sm;
+  }
 
-    & .rating img {
-      @apply size-4 object-contain;
-    }
+  .movie-card .rating {
+    @apply flex flex-row items-center gap-1.5 rounded-full bg-white/6 px-2.5 py-1;
+  }
 
-    & .rating p {
-      @apply font-bold text-base text-white;
-    }
+  .movie-card .rating img {
+    @apply size-4 object-contain;
+  }
 
-    & .content span {
-      @apply text-sm text-gray-100;
-    }
+  .movie-card .rating p {
+    @apply text-sm font-semibold text-white;
+  }
 
-    & .content .lang {
-      @apply capitalize text-gray-100 font-medium text-base;
-    }
+  .movie-card .content span {
+    @apply text-light-200/45;
+  }
 
-    & .content .year {
-      @apply text-gray-100 font-medium text-base;
-    }
+  .movie-card .content .lang,
+  .movie-card .content .year {
+    @apply text-sm font-medium uppercase tracking-[0.18em] text-light-200/80;
+  }
+
+  .movie-card .overview {
+    @apply mt-4 line-clamp-3 text-sm leading-6 text-light-200/78;
+  }
+
+  .state-card {
+    @apply flex min-h-[220px] flex-col items-center justify-center gap-4 rounded-[28px] border border-white/8 bg-white/5 px-6 text-center shadow-[0_20px_60px_rgba(0,0,0,0.32)];
+  }
+
+  .state-card h3,
+  .state-card p {
+    @apply text-white;
+  }
+
+  .state-card p {
+    @apply max-w-md text-sm leading-6 text-light-200;
+  }
+
+  .loading-state {
+    @apply gap-5;
+  }
+
+  .loading-state div p {
+    @apply text-base font-semibold text-white;
+  }
+
+  .error-state {
+    @apply border-red-400/20 bg-red-400/8;
   }
 }
 
@@ -150,6 +205,7 @@
   -webkit-text-stroke: 5px rgba(206, 206, 251, 0.5);
   font-size: 190px;
   font-family: "Bebas Neue", sans-serif;
+  color: rgba(255, 255, 255, 0.1);
 }
 
 @utility hide-scrollbar {
