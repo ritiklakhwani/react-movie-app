@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { motion } from "framer-motion";
 import Search from "./components/search";
 import Spinner from "./components/spinner";
 import MovieCard from "./components/movieCard";
@@ -15,6 +16,17 @@ const API_OPTIONS = {
   },
 };
 
+const movieGridVariants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const MotionList = motion.ul;
+
 const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -22,16 +34,20 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [debounceSearchTerm, setDebounceSearchTerm] = useState("");
   const [trendingMovies, setTrendingMovies] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const loadMoreRef = useRef(null);
+
 
   useDebounce(() => setDebounceSearchTerm(searchTerm), 500, [searchTerm]);
 
-  const fetchMovies = async (query = "") => {
+  const fetchMovies = async (query = "", pageNum) => {
     setIsLoading(true);
     setErrorMessage("");
     try {
       const endpoint = query
-        ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
-        : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+        ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}&page=${pageNum}`
+        : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc&page=${pageNum}`;
 
       const response = await fetch(endpoint, API_OPTIONS);
 
@@ -47,7 +63,13 @@ const App = () => {
         return;
       }
 
-      setMovieList(data.results || []);
+      if (pageNum === 1) {
+        setMovieList(data.results);
+      } else {
+        setMovieList((prev) => [...prev, ...data.results]);
+      }
+
+      setTotalPages(data.total_pages);
     } catch (error) {
       console.log(error);
       setErrorMessage("Error fetching movies. Please try again later.");
@@ -74,8 +96,29 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    fetchMovies(debounceSearchTerm);
+    setPage(1);
+    fetchMovies(debounceSearchTerm, 1);
   }, [debounceSearchTerm]);
+
+  useEffect(() => {
+    if (page > 1) {
+      fetchMovies(debounceSearchTerm, page);
+    }
+  }, [page]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !isLoading && page < totalPages) {
+        setPage((prev) => prev + 1);
+      }
+    });
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [isLoading, page, totalPages]);
 
   return (
     <main>
@@ -94,7 +137,7 @@ const App = () => {
         <section className="trending">
           <h2>Trending Movies</h2>
           <ul>
-            {trendingMovies.map((movie, index) => (
+            {trendingMovies.slice(0, 10).map((movie, index) => (
               <li key={movie.id}>
                 <p>{index + 1}</p>
                 <img
@@ -116,7 +159,9 @@ const App = () => {
               <span className="section-label">
                 {searchTerm ? "Search results" : "Featured collection"}
               </span>
-              <h2>{searchTerm ? `Results for "${searchTerm}"` : "All Movies"}</h2>
+              <h2>
+                {searchTerm ? `Results for "${searchTerm}"` : "All Movies"}
+              </h2>
             </div>
             <p>
               {searchTerm
@@ -125,7 +170,7 @@ const App = () => {
             </p>
           </div>
 
-          {isLoading ? (
+          {isLoading && page === 1 ? (
             <Spinner />
           ) : errorMessage ? (
             <div className="state-card error-state">
@@ -143,12 +188,19 @@ const App = () => {
               </p>
             </div>
           ) : (
-            <ul>
+            <MotionList
+              key={searchTerm || "popular"}
+              variants={movieGridVariants}
+              initial="hidden"
+              animate="show"
+            >
               {movieList.map((movie) => (
                 <MovieCard key={movie.id} movie={movie} />
               ))}
-            </ul>
+            </MotionList>
           )}
+          {isLoading && page > 1 && <Spinner />}
+          <div ref={loadMoreRef} />
         </section>
       </div>
     </main>

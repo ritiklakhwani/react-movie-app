@@ -154,11 +154,11 @@
   }
 
   .movie-card .content {
-    @apply mt-3 flex flex-row items-center flex-wrap gap-2.5 text-sm;
+    @apply mt-3 flex flex-row items-center flex-wrap gap-2 opacity-80;
   }
 
   .movie-card .rating {
-    @apply flex flex-row items-center gap-1.5 rounded-full bg-white/6 px-2.5 py-1;
+    @apply flex flex-row items-center gap-1.5 rounded-full bg-white/6 px-2 py-1;
   }
 
   .movie-card .rating img {
@@ -173,9 +173,29 @@
     @apply text-light-200/45;
   }
 
+  .movie-card .meta-star {
+    @apply size-3;
+  }
+
+  .movie-card .meta-value {
+    @apply text-sm;
+  }
+
+  .movie-card .meta-divider {
+    @apply text-gray-500;
+  }
+
   .movie-card .content .lang,
   .movie-card .content .year {
-    @apply text-sm font-medium uppercase tracking-[0.18em] text-light-200/80;
+    @apply text-xs uppercase text-light-200/80;
+  }
+
+  .movie-card .content .lang {
+    @apply tracking-[0.08em];
+  }
+
+  .movie-card .content .year {
+    @apply text-sm font-light;
   }
 
   .movie-card .overview {

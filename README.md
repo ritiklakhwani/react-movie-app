@@ -1,16 +1,73 @@
-# React + Vite
+# MovieFlix
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A movie discovery app built with React. Browse popular movies, check what's trending, or search for anything -- powered by the TMDB API.
 
-Currently, two official plugins are available:
+![React](https://img.shields.io/badge/React-19-blue) ![Vite](https://img.shields.io/badge/Vite-8-purple) ![Tailwind](https://img.shields.io/badge/Tailwind-4-cyan)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- **Trending section** -- top 10 trending movies in a horizontal scroll with ranked numbering
+- **Search** -- debounced search that hits TMDB's search API as you type
+- **Infinite scroll** -- automatically loads more movies as you scroll down using IntersectionObserver
+- **Animations** -- staggered card entrance animations with Framer Motion
+- **Responsive** -- works on mobile, tablet, and desktop
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- React 19
+- Vite 8
+- Tailwind CSS 4
+- Framer Motion
+- TMDB API
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Getting Started
+
+**1. Clone the repo**
+
+```bash
+git clone https://github.com/your-username/react-movie-app.git
+cd react-movie-app
+```
+
+**2. Install dependencies**
+
+```bash
+npm install
+```
+
+**3. Set up your TMDB API key**
+
+Create a `.env` file in the root:
+
+```
+VITE_TMDB_API_KEY=your_tmdb_api_key_here
+```
+
+You can get a free API key at [themoviedb.org](https://www.themoviedb.org/settings/api).
+
+**4. Run the dev server**
+
+```bash
+npm run dev
+```
+
+## Project Structure
+
+```
+src/
+  App.jsx              # Main app component, API calls, state management
+  components/
+    search.jsx         # Search input with controlled state
+    movieCard.jsx      # Individual movie card (poster, rating, year, language)
+    spinner.jsx        # Loading spinner
+  index.css            # All styles (Tailwind layers + custom utilities)
+```
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server |
+| `npm run build` | Production build |
+| `npm run preview` | Preview production build |
+| `npm run lint` | Run ESLint |
