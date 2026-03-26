@@ -1,5 +1,7 @@
 # MovieFlix
 
+https://github.com/user-attachments/assets/470fcc2c-8537-46e0-b224-872767bbe899
+
 A movie discovery app built with React. Browse popular movies, check what's trending, or search for anything -- powered by the TMDB API.
 
 ![React](https://img.shields.io/badge/React-19-blue) ![Vite](https://img.shields.io/badge/Vite-8-purple) ![Tailwind](https://img.shields.io/badge/Tailwind-4-cyan)
