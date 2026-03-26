@@ -78,8 +78,19 @@
      @apply mt-20;
   }
 
+  .trending h2,
+  .all-movies h2 {
+    @apply uppercase tracking-[0.18em];
+  }
+
   .trending ul {
     @apply flex flex-row overflow-y-auto gap-5 -mt-10 w-full hide-scrollbar;
+    mask-image: linear-gradient(to right, black 88%, transparent 100%);
+    -webkit-mask-image: linear-gradient(
+      to right,
+      black 88%,
+      transparent 100%
+    );
   }
 
   .trending ul li {
@@ -91,11 +102,11 @@
   }
 
   .trending ul li img {
-    @apply w-[127px] h-[163px] rounded-lg object-cover -ml-3.5;
+    @apply w-[127px] h-[163px] rounded-lg object-cover -ml-3.5 transition-transform duration-300 hover:scale-105;
   }
 
   .search {
-    @apply w-full bg-light-100/5 px-4 py-3 rounded-lg mt-10 max-w-3xl mx-auto;
+    @apply w-full bg-light-100/5 px-4 py-3 rounded-lg mt-10 max-w-2xl mx-auto;
 
     & div {
       @apply relative flex items-center rounded-lg border border-transparent transition-all duration-300;
@@ -123,7 +134,7 @@
   }
 
   .all-movies ul {
-    @apply grid grid-cols-1 gap-6 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4;
+    @apply grid grid-cols-1 gap-6 sm:gap-8 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4;
   }
 
   .movie-card {
@@ -182,6 +193,32 @@
 
   .state-card p {
     @apply max-w-md text-sm leading-6 text-light-200;
+  }
+
+  .empty-state {
+    @apply gap-5;
+  }
+
+  .empty-state-icon {
+    @apply relative flex h-20 w-20 items-center justify-center rounded-full border border-light-100/12 bg-white/6 shadow-[0_20px_60px_rgba(0,0,0,0.25)];
+  }
+
+  .empty-state-icon::before,
+  .empty-state-icon::after {
+    content: "";
+    @apply absolute rounded-full border border-light-100/10;
+  }
+
+  .empty-state-icon::before {
+    @apply h-12 w-12;
+  }
+
+  .empty-state-icon::after {
+    @apply h-7 w-7 bg-linear-to-br from-light-100/20 to-transparent;
+  }
+
+  .empty-state-icon span {
+    @apply h-2.5 w-2.5 rounded-full bg-light-100/80;
   }
 
   .loading-state {

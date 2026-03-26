@@ -133,8 +133,14 @@ const App = () => {
             </div>
           ) : movieList.length === 0 ? (
             <div className="state-card empty-state">
-              <h3>No movies found</h3>
-              <p>Try a different title, genre keyword, or a shorter search.</p>
+              <div className="empty-state-icon" aria-hidden="true">
+                <span />
+              </div>
+              <h3>No Results Found</h3>
+              <p>
+                Try a different title, genre keyword, or a shorter search to
+                discover more movies.
+              </p>
             </div>
           ) : (
             <ul>
